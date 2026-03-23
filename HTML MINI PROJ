@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Grand Opening - Spice Garden Restaurant</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #fff8e1, #ffe0b2);
+      color: #333;
+    }
+    .pamphlet {
+      max-width: 800px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    header {
+      background: #d84315;
+      color: white;
+      text-align: center;
+      padding: 0;
+      position: relative;
+    }
+    header img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      display: block;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.6);
+      padding: 10px 20px;
+      border-radius: 8px;
+    }
+    header p {
+      margin: 0;
+      font-size: 1.2em;
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.8);
+      color: #d84315;
+      padding: 5px 15px;
+      border-radius: 6px;
+    }
+    .content {
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .highlight {
+      background: #ffe082;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 20px 0;
+      text-align: center;
+      font-weight: bold;
+    }
+    .menu {
+      margin: 20px 0;
+    }
+    .menu h2 {
+      text-align: center;
+      color: #d84315;
+    }
+    .menu ul {
+      list-style: none;
+      padding: 0;
+    }
+    .menu li {
+      background: #fbe9e7;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    .button {
+      display: inline-block;
+      background: #d84315;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .button:hover {
+      background: #bf360c;
+    }
+    footer {
+      background: #f5f5f5;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <div class="pamphlet">
+    <header>
+      <!-- Replace with your restaurant image -->
+      <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092" alt="Restaurant Header">
+      <h1>Spice Garden</h1>
+      <p>Grand Opening Celebration!</p>
+    </header>
+    <div class="content">
+      <p>We are thrilled to invite you to the grand opening of <strong>Spice Garden Restaurant</strong>, where tradition meets taste. Enjoy authentic flavors, cozy ambiance, and a memorable dining experience.</p>
+      
+      <div class="highlight">
+        🎉 Opening Day: March 30, 2026 <br>
+        📍 Location: 123 Main Street, Thovalai
+      </div>
+      
+      <div class="menu">
+        <h2>Signature Dishes</h2>
+        <ul>
+          <li>Butter Chicken with Naan</li>
+          <li>Paneer Tikka Masala</li>
+          <li>Spicy Veg Biryani</li>
+          <li>Grilled Fish Curry</li>
+          <li>Classic Dosa with Chutney</li>
+        </ul>
+      </div>
+      
+      <p>Join us for complimentary welcome drinks, live music, and exclusive discounts on our signature dishes. Bring your family and friends to be part of this special occasion!</p>
+      
+      <a href="#" class="button" onclick="showOffer()">Click for Surprise Offer</a>
+    </div>
+    <footer>
+      Contact us: (123) 456-7890 | www.spicegarden.com
+    </footer>
+  </div>
+
+  <script>
+    function showOffer() {
+      alert("🎁 Special Offer: 20% OFF on your first meal during opening week!");
+    }
+  </script>
+</body>
+</html>
