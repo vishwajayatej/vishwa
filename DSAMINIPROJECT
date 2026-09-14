@@ -1,0 +1,26 @@
+# Cash Flow Minimizer using Python
+
+def minCashFlow(amount):
+    # Find maximum creditor
+    max_credit = max(range(len(amount)), key=lambda i: amount[i])
+    # Find maximum debtor
+    max_debit = min(range(len(amount)), key=lambda i: amount[i])
+
+    # If all amounts are settled
+    if amount[max_credit] == 0 and amount[max_debit] == 0:
+        return
+
+    # Find minimum of two amounts
+    min_val = min(-amount[max_debit], amount[max_credit])
+    amount[max_credit] -= min_val
+    amount[max_debit] += min_val
+
+    print(f"Person {max_debit} pays {min_val} to Person {max_credit}")
+
+    # Recur for remaining amounts
+    minCashFlow(amount)
+
+
+# Example usage
+amounts = [50, -30, -20]  # Person 0 lent 50, Person 1 owes 30, Person 2 owes 20
+minCashFlow(amounts)
