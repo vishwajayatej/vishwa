@@ -1,26 +1,76 @@
 # Cash Flow Minimizer using Python
+# Step 1: Function to find index of maximum creditor
+def get_max_creditor(amounts):
+    max_index = 0
+    for i in range(1, len(amounts)):
+        if amounts[i] > amounts[max_index]:
+            max_index = i
+    return max_index
 
-def minCashFlow(amount):
-    # Find maximum creditor
-    max_credit = max(range(len(amount)), key=lambda i: amount[i])
-    # Find maximum debtor
-    max_debit = min(range(len(amount)), key=lambda i: amount[i])
+# Step 2: Function to find index of maximum debtor
+def get_max_debtor(amounts):
+    min_index = 0
+    for i in range(1, len(amounts)):
+        if amounts[i] < amounts[min_index]:
+            min_index = i
+    return min_index
 
-    # If all amounts are settled
-    if amount[max_credit] == 0 and amount[max_debit] == 0:
+# Step 3: Recursive function to minimize cash flow
+def minimize_cash_flow(amounts, transactions):
+    # Find max creditor and debtor
+    max_creditor = get_max_creditor(amounts)
+    max_debtor = get_max_debtor(amounts)
+
+    # Base case: if all amounts are settled
+    if amounts[max_creditor] == 0 and amounts[max_debtor] == 0:
         return
 
-    # Find minimum of two amounts
-    min_val = min(-amount[max_debit], amount[max_credit])
-    amount[max_credit] -= min_val
-    amount[max_debit] += min_val
+    # Find minimum amount to be settled
+    settlement = min(-amounts[max_debtor], amounts[max_creditor])
+    amounts[max_creditor] -= settlement
+    amounts[max_debtor] += settlement
 
-    print(f"Person {max_debit} pays {min_val} to Person {max_credit}")
+    # Record the transaction
+    transactions.append((max_debtor, max_creditor, settlement))
 
-    # Recur for remaining amounts
-    minCashFlow(amount)
+    # Recurse until all debts are settled
+    minimize_cash_flow(amounts, transactions)
 
 
-# Example usage
-amounts = [50, -30, -20]  # Person 0 lent 50, Person 1 owes 30, Person 2 owes 20
-minCashFlow(amounts)
+# Step 4: Utility function to run the algorithm
+def cash_flow_minimizer(graph):
+    """
+    graph[i][j] = amount that person i owes person j
+    """
+    n = len(graph)
+
+    # Net amount array
+    amounts = [0] * n
+
+    # Calculate net amounts for each person
+    for i in range(n):
+        for j in range(n):
+            amounts[i] += (graph[j][i] - graph[i][j])
+
+    # Store transactions
+    transactions = []
+    minimize_cash_flow(amounts, transactions)
+
+    return transactions
+
+
+# Step 5: Driver Code
+if __name__ == "__main__":
+    # Example: 3 people
+    # graph[i][j] means person i owes person j
+    graph = [
+        [0, 1000, 2000],  # Person 0 owes 1000 to Person 1 and 2000 to Person 2
+        [0,    0,  5000], # Person 1 owes 5000 to Person 2
+        [0,    0,     0]  # Person 2 owes nothing
+    ]
+
+    print("Cash Flow Minimization Transactions:\n")
+    transactions = cash_flow_minimizer(graph)
+
+    for debtor, creditor, amount in transactions:
+        print(f"Person {debtor} pays {amount} to Person {creditor}")
