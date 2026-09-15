@@ -1,0 +1,220 @@
+create database mp;
+use mp;
+CREATE TABLE Customer (
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    phone VARCHAR(15),
+    address VARCHAR(200),
+    password VARCHAR(100) NOT NULL
+);
+CREATE TABLE Admin (
+    admin_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    phone VARCHAR(15),
+    password VARCHAR(100) NOT NULL
+);
+CREATE TABLE Category (
+    category_id INT PRIMARY KEY AUTO_INCREMENT,
+    category_name VARCHAR(100) NOT NULL,
+    description VARCHAR(255)
+);
+CREATE TABLE Book (
+    book_id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(150) NOT NULL,
+    author VARCHAR(100) NOT NULL,
+    category_id INT,
+    price DECIMAL(10,2) NOT NULL,
+    quantity INT NOT NULL DEFAULT 0,
+    admin_id INT,
+
+    FOREIGN KEY (category_id)
+        REFERENCES Category(category_id),
+
+    FOREIGN KEY (admin_id)
+        REFERENCES Admin(admin_id)
+);
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT NOT NULL,
+    order_date DATE NOT NULL,
+    total_amount DECIMAL(10,2) DEFAULT 0,
+    status VARCHAR(50) DEFAULT 'Pending',
+
+    FOREIGN KEY (customer_id)
+        REFERENCES Customer(customer_id)
+);
+CREATE TABLE Order_Item (
+    order_item_id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT NOT NULL,
+    book_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+
+    FOREIGN KEY (order_id)
+        REFERENCES Orders(order_id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (book_id)
+        REFERENCES Book(book_id)
+);
+CREATE TABLE Payment (
+    payment_id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT NOT NULL,
+    payment_date DATE,
+    amount DECIMAL(10,2) NOT NULL,
+    payment_method VARCHAR(50),
+    payment_status VARCHAR(50) DEFAULT 'Pending',
+
+    FOREIGN KEY (order_id)
+        REFERENCES Orders(order_id)
+        ON DELETE CASCADE
+);
+INSERT INTO Customer
+(name, email, phone, address, password)
+VALUES
+('Rahul Kumar', 'rahul@gmail.com', '9876543210',
+ 'Chennai', 'rahul123'),
+
+('Priya Sharma', 'priya@gmail.com', '9876543211',
+ 'Madurai', 'priya123'),
+
+('Arun Kumar', 'arun@gmail.com', '9876543212',
+ 'Coimbatore', 'arun123'),
+
+('Sneha Reddy', 'sneha@gmail.com', '9876543213',
+ 'Hyderabad', 'sneha123'),
+
+('Vijay Raj', 'vijay@gmail.com', '9876543214',
+ 'Bangalore', 'vijay123');
+ INSERT INTO Admin
+(name, email, phone, password)
+VALUES
+('Admin One', 'admin1@bookstore.com', '9000000001', 'admin123'),
+
+('Admin Two', 'admin2@bookstore.com', '9000000002', 'admin456');
+INSERT INTO Category
+(category_name, description)
+VALUES
+('Programming', 'Books related to programming and coding'),
+
+('Database', 'Books related to databases and SQL'),
+
+('Fiction', 'Fiction and story books'),
+
+('Science', 'Science and technology books'),
+
+('Biography', 'Biographies and autobiographies');
+INSERT INTO Book
+(title, author, category_id, price, quantity, admin_id)
+VALUES
+('C Programming', 'Dennis Ritchie', 1, 550.00, 20, 1),
+
+('Python Programming', 'Mark Lutz', 1, 650.00, 15, 1),
+
+('Database System Concepts', 'Abraham Silberschatz', 2, 850.00, 10, 1),
+
+('SQL Fundamentals', 'John J. Patrick', 2, 600.00, 12, 2),
+
+('The Alchemist', 'Paulo Coelho', 3, 400.00, 25, 2),
+
+('Atomic Habits', 'James Clear', 3, 500.00, 30, 1),
+
+('A Brief History of Time', 'Stephen Hawking', 4, 700.00, 8, 2),
+
+('Wings of Fire', 'A. P. J. Abdul Kalam', 5, 450.00, 18, 1);
+INSERT INTO Orders
+(customer_id, order_date, total_amount, status)
+VALUES
+(1, '2026-09-10', 1200.00, 'Delivered'),
+
+(2, '2026-09-11', 850.00, 'Shipped'),
+
+(3, '2026-09-12', 500.00, 'Pending'),
+
+(4, '2026-09-13', 1050.00, 'Delivered'),
+
+(5, '2026-09-14', 700.00, 'Processing');
+INSERT INTO Order_Item
+(order_id, book_id, quantity, price)
+VALUES
+(1, 1, 1, 550.00),
+(1, 5, 1, 400.00),
+(1, 6, 1, 500.00),
+
+(2, 3, 1, 850.00),
+
+(3, 6, 1, 500.00),
+
+(4, 2, 1, 650.00),
+(4, 8, 1, 450.00),
+
+(5, 7, 1, 700.00);
+INSERT INTO Payment
+(order_id, payment_date, amount, payment_method, payment_status)
+VALUES
+(1, '2026-09-10', 1200.00, 'UPI', 'Paid'),
+
+(2, '2026-09-11', 850.00, 'Credit Card', 'Paid'),
+
+(3, '2026-09-12', 500.00, 'Cash on Delivery', 'Pending'),
+
+(4, '2026-09-13', 1050.00, 'UPI', 'Paid'),
+
+(5, '2026-09-14', 700.00, 'Debit Card', 'Paid');
+SHOW TABLES;
+SELECT * FROM Customer;
+
+SELECT * FROM Admin;
+
+SELECT * FROM Category;
+
+SELECT * FROM Book;
+
+SELECT * FROM Orders;
+
+SELECT * FROM Order_Item;
+
+SELECT * FROM Payment;
+SELECT * FROM Book;
+SELECT title, author, price
+FROM Book
+WHERE price > 500;
+SELECT title, author, price
+FROM Book
+ORDER BY price ASC;
+SELECT title, author, price
+FROM Book
+ORDER BY price DESC;
+SELECT *
+FROM Book
+WHERE author = 'James Clear';
+SELECT *
+FROM Book
+WHERE title LIKE '%Python%';
+SELECT title, quantity
+FROM Book
+WHERE quantity > 0;
+SELECT title, quantity
+FROM Book
+WHERE quantity < 10;
+SELECT
+    b.book_id,
+    b.title,
+    b.author,
+    c.category_name,
+    b.price
+FROM Book b
+JOIN Category c
+ON b.category_id = c.category_id;
+SELECT
+    c.customer_id,
+    c.name,
+    o.order_id,
+    o.order_date,
+    o.total_amount,
+    o.status
+FROM Customer c
+JOIN Orders o
+ON c.customer_id = o.customer_id;
